@@ -69,8 +69,8 @@ void test(char *c) {
   // get first argument
   char *token = fnk.getToken(c); // is needed for library to work properly, but can be ignored
 
-  String s = "" + atoi(fnk.getArgument(c));
-
+  String s = (fnk.getArgument(c));
+  Serial.println(s);
   lcd.print(s);
 
   if(s=="h")
