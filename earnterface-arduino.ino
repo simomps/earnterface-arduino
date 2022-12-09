@@ -76,6 +76,7 @@ void test(char *c) {
   if(s=="h")
   {
     alarm=true;
+    Serial.println("off");
   }
 
 }
