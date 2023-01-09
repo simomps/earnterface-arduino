@@ -20,9 +20,9 @@ int incomingByte = 0;   // for incoming serial data
 
 void setup() {
   // initialize serial communication:
-  Serial.begin(57600);
+  Serial.begin(9600);
   
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  myservo.attach(6);  // attaches the servo on pin 9 to the servo object
   /*
   // initialize the LED pin as an output:
   pinMode(ledPin, OUTPUT);
@@ -49,9 +49,10 @@ void loop() {
           }else if(incomingByte == 114){
             Serial.println(" sent 180 Rotaing CCW "); 
             myservo.write(180); 
-          }else if(incomingByte == 60){
+          }else if(incomingByte == 115){
             Serial.println(" sent Stopped "); 
             myservo.write(60); 
+          }else if(incomingByte == 10){
           }else{
             Serial.println(" moving Random"); 
             myservo.write(incomingByte); 
