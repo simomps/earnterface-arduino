@@ -13,6 +13,8 @@ String incomingByte;      // a variable to read incoming serial data into
 int trigger = 0;
 String s = "";
 */
+Servo myservo;  // create servo object to control a servo
+// twelve servo objects can be created on most boards
 int pos = 0;    // variable to store the servo position
 int incomingByte = 0;   // for incoming serial data
 
