@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include "rgb_lcd.h"
+#include <Servo.h>
 
+/*
 rgb_lcd lcd;
 const int colorR = 255;
 const int colorG = 0;
@@ -10,20 +12,52 @@ const int ledPin = 2; // the pin that the LED is attached to
 String incomingByte;      // a variable to read incoming serial data into
 int trigger = 0;
 String s = "";
+*/
+int pos = 0;    // variable to store the servo position
+int incomingByte = 0;   // for incoming serial data
 
 void setup() {
   // initialize serial communication:
   Serial.begin(57600);
-
+  
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  /*
   // initialize the LED pin as an output:
   pinMode(ledPin, OUTPUT);
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   lcd.setRGB(colorR, colorG, colorB);
   lcd.begin(16, 2);
+  */
 }
 
 void loop() {
+  
+  // send data only when you receive data:
+  if (Serial.available() > 0) {
+          // read the incoming byte:
+          incomingByte = Serial.read();
+
+          // say what you got:
+          Serial.print("received: ");
+          Serial.print (incomingByte);
+          if(incomingByte == 108){
+           Serial.println(" sent 0 Rotaing CW "); 
+           myservo.write(0); 
+          }else if(incomingByte == 114){
+            Serial.println(" sent 180 Rotaing CCW "); 
+            myservo.write(180); 
+          }else if(incomingByte == 60){
+            Serial.println(" sent Stopped "); 
+            myservo.write(60); 
+          }else{
+            Serial.println(" moving Random"); 
+            myservo.write(incomingByte); 
+          }
+            
+           
+  }
+  /*
   // see if there's incoming serial data:
   if (Serial.available() > 0) {
     lcd.print(incomingByte);
@@ -45,4 +79,5 @@ void loop() {
       Serial.write("test");
     }
   }
+  */
 }
