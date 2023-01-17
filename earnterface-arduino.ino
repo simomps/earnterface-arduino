@@ -2,7 +2,6 @@
 // Download the Funken library here: https://github.com/astefas/Funken/tree/master/bin
 // Install with Sketch > Include Library > Add .ZIP Library
 #include <Funken.h>
-
 #include <Wire.h>
 #include "rgb_lcd.h"
 
@@ -18,10 +17,6 @@ bool alarm=false;
 const int ledPin = 2; // the pin that the LED is attached to
 
 void setup() {
-  /*
-  // initialize serial communication:
-  Serial.begin(57600);
-  */
   fnk.begin(57600, 0, 0); // higher baudrate for better performance
   fnk.listenTo("TEST", test); // however you want to name your callback
   
@@ -44,24 +39,6 @@ void loop() {
     digitalWrite(ledPin, LOW);   // set the LED off
     delay(500);
   }
-  
-  /*
-  // see if there's incoming serial data:
-  if (Serial.available() > 0) {
-    // read the oldest byte in the serial buffer:
-    incomingByte = Serial.read();
-    s = Serial.read();
-    // if it's a capital H (ASCII 72), turn on the LED:
-    if (incomingByte == 'H') {
-      h = true;
-      digitalWrite(ledPin, HIGH);
-    }
-    // if it's an L (ASCII 76) turn off the LED:
-    if (incomingByte == 'L') {
-      digitalWrite(ledPin, LOW);
-    }
-  }
-  */
 }
 
 void test(char *c) {
