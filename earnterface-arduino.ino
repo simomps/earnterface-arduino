@@ -10,7 +10,7 @@ int incomingByte = 0;   // for incoming serial data
 
 void setup() {
   // initialize serial communication:
-  Serial.begin(9600);
+  Serial.begin(57600);
   
   myservo.attach(6);  // attaches the servo on pin 9 to the servo object
   myservo1.attach(9);
@@ -24,20 +24,23 @@ void loop() {
           incomingByte = Serial.read();
 
           // say what you got:
-          Serial.print("received: ");
-          Serial.print (incomingByte);
-          if(incomingByte == 108){
+          if(incomingByte != 10){
+            Serial.print("received: ");
+            Serial.print (incomingByte);
+          }
+          if(incomingByte == 108){ //l for left turn
            Serial.println(" sent 0 Rotaing CW "); 
-           myservo.write(0); 
-          }else if(incomingByte == 114){
+           myservo.write(0);
+           myservo1.write(0);
+          }else if(incomingByte == 114){//r for right turn
             Serial.println(" sent 180 Rotaing CCW "); 
             myservo.write(180);
             myservo1.write(180); 
-          }else if(incomingByte == 115){
+          }else if(incomingByte == 115){ //s for stop
             Serial.println(" sent Stopped "); 
-            myservo.write(60);
-            myservo1.write(60); 
-          }else if(incomingByte == 10){
+            myservo.write(90);
+            myservo1.write(90);
+          }else if(incomingByte == 10){ //CLF
           }else{
             Serial.println(" moving Random"); 
             myservo.write(incomingByte);
