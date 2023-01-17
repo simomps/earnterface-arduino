@@ -2,18 +2,8 @@
 #include "rgb_lcd.h"
 #include <Servo.h>
 
-/*
-rgb_lcd lcd;
-const int colorR = 255;
-const int colorG = 0;
-const int colorB = 0;
-
-const int ledPin = 2; // the pin that the LED is attached to
-String incomingByte;      // a variable to read incoming serial data into
-int trigger = 0;
-String s = "";
-*/
 Servo myservo;  // create servo object to control a servo
+Servo myservo1;
 // twelve servo objects can be created on most boards
 int pos = 0;    // variable to store the servo position
 int incomingByte = 0;   // for incoming serial data
@@ -23,14 +13,7 @@ void setup() {
   Serial.begin(9600);
   
   myservo.attach(6);  // attaches the servo on pin 9 to the servo object
-  /*
-  // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
-  // set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
-  lcd.setRGB(colorR, colorG, colorB);
-  lcd.begin(16, 2);
-  */
+  myservo1.attach(9);
 }
 
 void loop() {
@@ -48,39 +31,17 @@ void loop() {
            myservo.write(0); 
           }else if(incomingByte == 114){
             Serial.println(" sent 180 Rotaing CCW "); 
-            myservo.write(180); 
+            myservo.write(180);
+            myservo1.write(180); 
           }else if(incomingByte == 115){
             Serial.println(" sent Stopped "); 
-            myservo.write(60); 
+            myservo.write(60);
+            myservo1.write(60); 
           }else if(incomingByte == 10){
           }else{
             Serial.println(" moving Random"); 
-            myservo.write(incomingByte); 
+            myservo.write(incomingByte);
+            myservo1.write(incomingByte);
           }
             
-           
-  }
-  /*
-  // see if there's incoming serial data:
-  if (Serial.available() > 0) {
-    lcd.print(incomingByte);
-
-    incomingByte = Serial.readStringUntil('\n');
-
-    if (incomingByte == "ACTION_1") {
-      // DO SOME ACTION HERE
-      trigger = 1;
-    }
-    if (incomingByte == "ACTION_2") {
-      // DO SOME ACTION HERE
-    }
-    if (trigger == 1) {
-      digitalWrite(ledPin, HIGH);   // set the LED on
-      delay(500);               // for 500ms
-      digitalWrite(ledPin, LOW);   // set the LED off
-      delay(500);
-      Serial.write("test");
-    }
-  }
-  */
-}
+  }}
