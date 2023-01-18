@@ -4,12 +4,14 @@
 
 Servo myservo;  // create servo object to control a servo
 Servo myservo1;
-// twelve servo objects can be created on most boards
-int pos = 0;    // variable to store the servo position
+
 String incomingByte;   // for incoming serial data
 
-int trigger = 0;
-unsigned long lastMillis;
+int myState = 0;
+long myStartTime = 0;
+
+const long time1 = 2000; // 20 sec
+const long time2 = 4000; // 40 sec
 
 void setup() {
   // initialize serial communication:
@@ -20,7 +22,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(lastMillis);
   // see if there's incoming serial data:
   if (Serial.available() > 0) {
 
@@ -29,30 +30,33 @@ void loop() {
 
     if (incomingByte == "ACTION_1") {
       // DO SOME ACTION HERE
-      trigger = 1;
+      myState = 1;
       //START TIMER
-      lastMillis = millis();
+      myStartTime = millis();
+      Serial.println("HEY");
     }
     if (incomingByte == "ACTION_2") {
       // DO SOME ACTION HERE
     }
-    if (trigger >= 1) {
-
+    if (myState == 1) {
+      Serial.println("last: ");
+      long m = millis() - myStartTime;
+      Serial.write(" " + m);
       //change cycle based on timer
-      if(millis() - lastMillis >= 30L * 1000 && trigger < 2){ //half a minute for left turn
+      if(millis() - myStartTime < time1){ //for left turn
        myservo.write(0);
        myservo1.write(0);
-       trigger = 2;
+       Serial.write(" :1");
       }
-      if(millis() - lastMillis >= 60L * 1000 && trigger < 3){//half a minute for right turn
+      if(millis() - myStartTime >= time1 && millis() - myStartTime < time2){ //for right turn
         myservo.write(180);
         myservo1.write(180); 
-        trigger = 3;
+        Serial.write(" :2");
       }
-      if(millis() - lastMillis >= 90L * 1000){ //after 1 min stop
+      if(millis() - myStartTime >= time2){ //after 1 min stop
         myservo.write(90);
         myservo1.write(90);
-        trigger = 0;
+        Serial.write(" :3");
       }
       //delay(1000);               // for 1000ms
       Serial.write("test");
