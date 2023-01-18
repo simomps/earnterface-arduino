@@ -36,18 +36,23 @@ void loop() {
     if (incomingByte == "ACTION_2") {
       // DO SOME ACTION HERE
     }
-    if (trigger == 1) {
+    if (trigger >= 1) {
 
       //change cycle based on timer
-      if(millis() - lastMillis >= 30L * 1000 && millis() - lastMillis < 60L * 1000){ //half a minute for left turn
+      if(millis() - lastMillis >= 30L * 1000 && trigger < 2){ //half a minute for left turn
        myservo.write(0);
        myservo1.write(0);
-      }else if(millis() - lastMillis >= 60L * 1000 && millis() - lastMillis < 90L * 1000){//half a minute for right turn
+       trigger = 2;
+      }
+      if(millis() - lastMillis >= 60L * 1000 && trigger < 3){//half a minute for right turn
         myservo.write(180);
         myservo1.write(180); 
-      }else if(millis() - lastMillis >= 90L * 1000){ //after 1 min stop
+        trigger = 3;
+      }
+      if(millis() - lastMillis >= 90L * 1000){ //after 1 min stop
         myservo.write(90);
         myservo1.write(90);
+        trigger = 0;
       }
       //delay(1000);               // for 1000ms
       Serial.write("test");
