@@ -9,9 +9,10 @@ String incomingByte;   // for incoming serial data
 
 int myState = 0;
 
-const long time1 = 2000; // 20 sec
-const long time2 = 2000; // 40 sec
-const long time3 = 2000; // 40 sec
+const long time1 = 800; // 20 sec
+const long time2 = 1000; // 40 sec
+const long time3 = 800; // 40 sec
+const long async = 200;
 
 void setup() {
   // initialize serial communication:
@@ -34,25 +35,59 @@ void loop() {
     }
     if (incomingByte == "ACTION_2") {
       // DO SOME ACTION HERE
+      myState = 2;
+    }
+    if (incomingByte == "s") {
+      // DO SOME ACTION HERE
+      myState = 0;
+      myservo.write(90);
+      myservo1.write(90);
     }
     if (myState == 1) {
-      Serial.write("test");
+      Serial.println("test1");
       //change cycle based on timer
       myservo.write(0);
       myservo1.write(0);
       delay(time1);
 
+      myservo.write(0);
+      myservo1.write(90);
+      delay(async);
+      
       myservo.write(90);
       myservo1.write(90);
       delay(time2);
 
+      myservo.write(180);
+      myservo1.write(90);
+      delay(async);
+      
       myservo.write(180);
       myservo1.write(180);
       delay(time3);
 
       myservo.write(90);
       myservo1.write(90);
-
+      myState = 3;
+    }
+    if (myState == 2) {
+      Serial.println("test2");
+      //change cycle based on timer
+      myservo.write(180);
+      myservo1.write(180);
+      delay(time1);
+      
+      myservo.write(90);
+      myservo1.write(90);
+      delay(time2);
+      
+      myservo.write(0);
+      myservo1.write(0);
+      delay(time3);
+      
+      myservo.write(90);
+      myservo1.write(90);
+      myState = 3;
     }
   }
 }
